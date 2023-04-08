@@ -3,15 +3,15 @@ part of 'shared.dart';
 const double defaultMargin = 18.0;
 const double defaultRadius = 18.0;
 
-const Color kPrimaryColor = Color(0xff141519);
-const Color kSecondaryColor = Color(0xff3498DB);
-const Color kThirdColor = Color(0xff9FA1A3);
+const Color kPrimaryColor = Color(0xff2F2F2F);
+const Color kSecondaryColor = Color(0xffFFCB74);
+const Color kThirdColor = Color(0xffF6F6F6);
 const Color kFourthColor = Color(0xffFFFFFF);
 
 TextStyle blackTextStyleInter = GoogleFonts.poppins(
   color: kPrimaryColor,
 );
-TextStyle blueTextStyleInter = GoogleFonts.poppins(
+TextStyle orangeTextStyleInter = GoogleFonts.poppins(
   color: kSecondaryColor,
 );
 TextStyle greyTextStyleInter = GoogleFonts.poppins(
