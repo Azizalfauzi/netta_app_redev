@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: const OnBoardingPage(),
+      home: const LoginPage(),
     );
   }
 }
