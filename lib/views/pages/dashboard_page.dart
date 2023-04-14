@@ -173,6 +173,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               name: e.name,
                               datetime: e.datetime,
                               status: e.status,
+                              onTap: () {},
                             ),
                           ),
                         )

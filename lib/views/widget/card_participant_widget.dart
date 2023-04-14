@@ -4,11 +4,13 @@ class CardParticipantWidget extends StatelessWidget {
   final String name;
   final String datetime;
   final String status;
+  final Function onTap;
   const CardParticipantWidget({
     super.key,
     required this.name,
     required this.datetime,
     required this.status,
+    required this.onTap,
   });
 
   @override
@@ -46,11 +48,16 @@ class CardParticipantWidget extends StatelessWidget {
                     fontWeight: light,
                   ),
                 ),
-                Text(
-                  'Detail',
-                  style: greyTextStyleInter.copyWith(
-                    fontSize: 12,
-                    fontWeight: light,
+                GestureDetector(
+                  onTap: () {
+                    onTap();
+                  },
+                  child: Text(
+                    'Detail',
+                    style: greyTextStyleInter.copyWith(
+                      fontSize: 12,
+                      fontWeight: light,
+                    ),
                   ),
                 ),
               ],

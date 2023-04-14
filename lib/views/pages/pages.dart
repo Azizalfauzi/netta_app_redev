@@ -11,3 +11,6 @@ part 'dashboard_page.dart';
 part 'login_page.dart';
 part 'onboarding_page.dart';
 part 'splashsrceen_page.dart';
+part 'participant_page.dart';
+part 'scan_page.dart';
+part 'setting_page.dart';
