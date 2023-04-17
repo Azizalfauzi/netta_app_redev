@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^4.0.3
   introduction_screen: ^3.1.0
   flutter_speed_dial: ^6.2.0
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
