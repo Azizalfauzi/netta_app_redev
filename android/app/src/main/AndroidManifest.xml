@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.netta_app_redev">
    <application
-        android:label="netta_app_redev"
+        android:label="Netta"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -19,7 +19,9 @@ class _SettingPageState extends State<SettingPage> {
             width: MediaQuery.of(context).size.width / 5,
             height: MediaQuery.of(context).size.height / 10,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.read<RoutesCubit>().emit(RoutesDashboardPage());
+              },
               icon: const Icon(
                 Icons.arrow_back_ios,
               ),
@@ -296,16 +298,22 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF6F6F6),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _contentSettingPageOne(),
-              _contentSettingPageTwo(),
-              _contentSettingPageThree(),
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<RoutesCubit>().emit(RoutesDashboardPage());
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffF6F6F6),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _contentSettingPageOne(),
+                _contentSettingPageTwo(),
+                _contentSettingPageThree(),
+              ],
+            ),
           ),
         ),
       ),

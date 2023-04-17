@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netta_app_redev/state/routes/routes_cubit.dart';
 import 'package:netta_app_redev/views/pages/pages.dart';
 
 void main() {
@@ -17,13 +19,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.amber,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: ((_) => RoutesCubit()),
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.amber,
+        ),
+        home: const WrapperPage(),
       ),
-      home: const ScannerPage(),
     );
   }
 }

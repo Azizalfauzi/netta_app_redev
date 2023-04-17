@@ -60,7 +60,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                       ),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<RoutesCubit>().emit(RoutesOnboardingPage());
+                  },
                   child: Text(
                     'Lets get Started',
                     style: blackTextStyleInter,

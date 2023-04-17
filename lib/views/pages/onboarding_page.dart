@@ -10,12 +10,6 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
 
-  void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const SplashScreenPage()),
-    );
-  }
-
   Widget _buildImage(String assetName, [double width = 250]) {
     return Image.asset('assets/images/$assetName', width: width);
   }
@@ -61,7 +55,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           decoration: pageDecoration,
         ),
       ],
-      onDone: () => _onIntroEnd(context),
+      onDone: () {
+        context.read<RoutesCubit>().emit(RoutesLoginPage());
+      },
       // onSkip: () => _onIntroEnd(context), // You can override onSkip callback
       showSkipButton: true,
       skipOrBackFlex: 0,

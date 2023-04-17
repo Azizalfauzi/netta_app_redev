@@ -246,6 +246,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: whiteTextStyleInter,
               ),
             ).show(context);
+            context.read<RoutesCubit>().emit(RoutesDashboardPage());
           } else {
             Flushbar(
               duration: const Duration(milliseconds: 3000),
@@ -273,21 +274,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 1,
-              color: const Color(0xff2F2F2F),
-            ),
-            Column(
-              children: [
-                _headerLogin(),
-                _contentLogin(),
-              ],
-            )
-          ],
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('Tap back again to leave'),
+        ),
+        child: SingleChildScrollView(
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height / 1,
+                color: const Color(0xff2F2F2F),
+              ),
+              Column(
+                children: [
+                  _headerLogin(),
+                  _contentLogin(),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

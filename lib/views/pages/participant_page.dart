@@ -8,6 +8,16 @@ class ParticipantPage extends StatefulWidget {
 }
 
 class _ParticipantPageState extends State<ParticipantPage> {
+  final ScreenshotController screenshotController = ScreenshotController();
+  // share image capture
+  Future shareImageCapture(Uint8List bytes) async {
+    final dir = await getApplicationDocumentsDirectory();
+    final imageCapture = File('${dir.path}/netta_share_code.png');
+    imageCapture.writeAsBytesSync(bytes);
+    // ignore: deprecated_member_use
+    await Share.shareFiles([imageCapture.path]);
+  }
+
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
   // init var form
@@ -26,6 +36,8 @@ class _ParticipantPageState extends State<ParticipantPage> {
       ),
       backgroundColor: kPrimaryColor,
     );
+    // screem shot controller
+
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -45,75 +57,85 @@ class _ParticipantPageState extends State<ParticipantPage> {
                     ),
                   ),
                 ),
-                Text(
-                  name,
-                  style: blackTextStyleInter.copyWith(
-                    fontWeight: bold,
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 3.5,
-                  child: Center(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 3,
-                      height: MediaQuery.of(context).size.height / 5,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/images/ic_barcode.png',
+                Screenshot(
+                  controller: screenshotController,
+                  child: Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        Text(
+                          name,
+                          style: blackTextStyleInter.copyWith(
+                            fontWeight: bold,
+                            fontSize: 16,
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height / 3.5,
+                          child: Center(
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 3,
+                              height: MediaQuery.of(context).size.height / 5,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/ic_barcode.png',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: Text(
+                                'Phone number',
+                                style: blackTextStyleInter.copyWith(
+                                  fontWeight: regular,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                ': $phone',
+                                style: blackTextStyleInter.copyWith(
+                                  fontWeight: regular,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 4,
+                              child: Text(
+                                'Event Code',
+                                style: blackTextStyleInter.copyWith(
+                                  fontWeight: regular,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                ': $eventCode',
+                                style: blackTextStyleInter.copyWith(
+                                  fontWeight: regular,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: Text(
-                        'Phone number',
-                        style: blackTextStyleInter.copyWith(
-                          fontWeight: regular,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        ': $phone',
-                        style: blackTextStyleInter.copyWith(
-                          fontWeight: regular,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 4,
-                      child: Text(
-                        'Event Code',
-                        style: blackTextStyleInter.copyWith(
-                          fontWeight: regular,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        ': $eventCode',
-                        style: blackTextStyleInter.copyWith(
-                          fontWeight: regular,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height / 22,
@@ -123,7 +145,12 @@ class _ParticipantPageState extends State<ParticipantPage> {
                   ),
                   child: ElevatedButton(
                     style: style,
-                    onPressed: () {},
+                    onPressed: () async {
+                      final imageCapture = await screenshotController.capture();
+                      if (imageCapture == null) return;
+                      //await saveImageCapture(imageCapture);
+                      shareImageCapture(imageCapture);
+                    },
                     child: Text(
                       'Share',
                       style: whiteTextStyleInter,
@@ -434,7 +461,9 @@ class _ParticipantPageState extends State<ParticipantPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<RoutesCubit>().emit(RoutesDashboardPage());
+                  },
                   icon: const Icon(
                     Icons.arrow_back_ios,
                   ),
@@ -524,14 +553,20 @@ class _ParticipantPageState extends State<ParticipantPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF6F6F6),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _headerParticipant(),
-            _contentParticipant(),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        context.read<RoutesCubit>().emit(RoutesDashboardPage());
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xffF6F6F6),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              _headerParticipant(),
+              _contentParticipant(),
+            ],
+          ),
         ),
       ),
     );

@@ -32,8 +32,7 @@ class _ScannerPageState extends State<ScannerPage> {
               height: 50,
               child: IconButton(
                 onPressed: () {
-                  // // ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
-                  // context.read<RoutesCubit>().emit(RoutesDashboardPage());
+                  context.read<RoutesCubit>().emit(RoutesDashboardPage());
                 },
                 icon: const Icon(
                   Icons.arrow_back_ios,
@@ -121,6 +120,7 @@ class _ScannerPageState extends State<ScannerPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        context.read<RoutesCubit>().emit(RoutesDashboardPage());
         return false;
       },
       child: Scaffold(
